@@ -30,6 +30,13 @@ async function run() {
       const groceries = await groceryCollection.find({}).toArray();
       res.send(groceries);
     });
+    // get single grocery by id
+    app.get("/groceries/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await groceryCollection.findOne(query);
+      res.send(result);
+    });
   } finally {
     // await client.close()
   }
