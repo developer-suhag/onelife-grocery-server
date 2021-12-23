@@ -4,7 +4,7 @@ const { MongoClient } = require("mongodb");
 require("dotenv").config();
 const ObjectId = require("mongodb").ObjectId;
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
-const admin = require("firebase-admin");
+// const admin = require("firebase-admin");
 const { initializeApp } = require("firebase-admin/app");
 
 const app = express();
@@ -13,14 +13,11 @@ const port = process.env.PORT || 5000;
 
 // firebase admin sdk
 
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT).replace(
-  /\\n/g,
-  "\n"
-);
+// const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+// });
 
 console.log(serviceAccount);
 
