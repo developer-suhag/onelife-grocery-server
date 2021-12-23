@@ -3,8 +3,8 @@ const cors = require("cors");
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
 const ObjectId = require("mongodb").ObjectId;
-// const stripe = require("stripe")(process.env.STRIPE_SECRET);
-// const admin = require("firebase-admin");
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
+const admin = require("firebase-admin");
 
 const app = express();
 // port
@@ -12,11 +12,11 @@ const port = process.env.PORT || 5000;
 
 // firebase admin sdk
 
-// const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-// });
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
 
 // middle ware
 app.use(cors());
