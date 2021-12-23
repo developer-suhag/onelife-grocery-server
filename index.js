@@ -4,6 +4,7 @@ const { MongoClient } = require("mongodb");
 require("dotenv").config();
 const ObjectId = require("mongodb").ObjectId;
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
+const admin = require("firebase-admin");
 
 const app = express();
 // port
@@ -48,24 +49,24 @@ async function run() {
       res.send(result);
     });
 
-    // // post order api
-    // app.post("/orders", async (req, res) => {
-    //   const payment = req.body;
-    //   const result = orderCollection.insertOne(payment);
-    //   res.json(result);
-    // });
+    // post order api
+    app.post("/orders", async (req, res) => {
+      const payment = req.body;
+      const result = orderCollection.insertOne(payment);
+      res.json(result);
+    });
 
-    // // stripe payment
-    // app.post("/create-payment-intent", async (req, res) => {
-    //   const paymentInfo = req.body;
-    //   const amount = paymentInfo.price * 100;
-    //   const paymentIntent = await stripe.paymentIntents.create({
-    //     amount: amount,
-    //     currency: "usd",
-    //     payment_method_types: ["card"],
-    //   });
-    //   res.json({ clientSecret: paymentIntent.client_secret });
-    // });
+    // stripe payment
+    app.post("/create-payment-intent", async (req, res) => {
+      const paymentInfo = req.body;
+      const amount = paymentInfo.price * 100;
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: amount,
+        currency: "usd",
+        payment_method_types: ["card"],
+      });
+      res.json({ clientSecret: paymentIntent.client_secret });
+    });
 
     //
     //
