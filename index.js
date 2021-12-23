@@ -12,11 +12,16 @@ const port = process.env.PORT || 5000;
 
 // firebase admin sdk
 
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT).replace(
+  /\\n/g,
+  "\n"
+);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
+
+console.log(serviceAccount);
 
 // middle ware
 app.use(cors());
