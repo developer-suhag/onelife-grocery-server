@@ -5,6 +5,7 @@ require("dotenv").config();
 const ObjectId = require("mongodb").ObjectId;
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 const admin = require("firebase-admin");
+const { initializeApp } = require("firebase-admin/app");
 
 const app = express();
 // port
