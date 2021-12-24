@@ -3,9 +3,9 @@ const cors = require("cors");
 const { MongoClient } = require("mongodb");
 require("dotenv").config();
 const ObjectId = require("mongodb").ObjectId;
-// const stripe = require("stripe")(process.env.STRIPE_SECRET);
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
 // const admin = require("firebase-admin");
-const { initializeApp } = require("firebase-admin/app");
+// const { initializeApp } = require("firebase-admin/app");
 
 const app = express();
 // port
@@ -13,13 +13,12 @@ const port = process.env.PORT || 5000;
 
 // firebase admin sdk
 
-// const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
+// const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+// const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 
 // admin.initializeApp({
 //   credential: admin.credential.cert(serviceAccount),
 // });
-
-console.log(serviceAccount);
 
 // middle ware
 app.use(cors());
@@ -53,23 +52,23 @@ async function run() {
     });
 
     // // post order api
-    // app.post("/orders", async (req, res) => {
-    //   const payment = req.body;
-    //   const result = orderCollection.insertOne(payment);
-    //   res.json(result);
-    // });
+    app.post("/orders", async (req, res) => {
+      const payment = req.body;
+      const result = orderCollection.insertOne(payment);
+      res.json(result);
+    });
 
-    // // stripe payment
-    // app.post("/create-payment-intent", async (req, res) => {
-    //   const paymentInfo = req.body;
-    //   const amount = paymentInfo.price * 100;
-    //   const paymentIntent = await stripe.paymentIntents.create({
-    //     amount: amount,
-    //     currency: "usd",
-    //     payment_method_types: ["card"],
-    //   });
-    //   res.json({ clientSecret: paymentIntent.client_secret });
-    // });
+    // stripe payment
+    app.post("/create-payment-intent", async (req, res) => {
+      const paymentInfo = req.body;
+      const amount = paymentInfo.price * 100;
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: amount,
+        currency: "usd",
+        payment_method_types: ["card"],
+      });
+      res.json({ clientSecret: paymentIntent.client_secret });
+    });
 
     //
     //
